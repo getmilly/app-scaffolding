@@ -1,8 +1,12 @@
 package main
 
 import (
+	"os"
+
 	"github.com/getmilly/app-scaffolding/api/controllers"
 	"github.com/getmilly/grok/api"
+	"github.com/getmilly/grok/mongodb"
+
 	gnats "github.com/getmilly/grok/nats"
 	"github.com/nats-io/go-nats"
 	"github.com/sarulabs/di"
@@ -18,7 +22,8 @@ func main() {
 		Scope: di.App,
 		Build: func(c di.Container) (interface{}, error) {
 			producer := c.Get("nats-producer").(*gnats.Producer)
-			return controllers.NewAppController(producer), nil
+			mongodb := c.Get("mongodb-session").(*mongodb.MongoConnection)
+			return controllers.NewAppController(producer, mongodb), nil
 		},
 	})
 
@@ -36,6 +41,14 @@ func main() {
 		Scope: di.App,
 		Build: func(c di.Container) (interface{}, error) {
 			return gnats.Connect(nats.DefaultURL, "")
+		},
+	})
+
+	server.AddDependency(di.Def{
+		Name:  "mongodb-session",
+		Scope: di.App,
+		Build: func(c di.Container) (interface{}, error) {
+			return mongodb.CreateSession(os.Getenv("MONGODB_CONNECTION_STRING")), nil
 		},
 	})
 

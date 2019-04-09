@@ -242,6 +242,12 @@
   version = "v8.18.2"
 
 [[projects]]
+  branch = "v2"
+  name = "gopkg.in/mgo.v2"
+  packages = [".","bson","internal/json","internal/sasl","internal/scram"]
+  revision = "9856a29383ce1c59f308dd1cf0363a79b5bef6b5"
+
+[[projects]]
   name = "gopkg.in/square/go-jose.v2"
   packages = [".","cipher","json","jwt"]
   revision = "628223f44a71f715d2881ea69afc795a1e9c01be"
@@ -256,6 +262,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "ec75d71c0e6e11d0691d08074bf490ee8f4d206125b81b372b9cd7b95b15514d"
+  inputs-digest = "f194654c882c9b656d1b30cce08c367c3cc9b1247de7625940207eb328901739"
   solver-name = "gps-cdcl"
   solver-version = 1
